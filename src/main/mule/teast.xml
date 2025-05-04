@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d813f59d-f859-4123-94cd-ebd592905027" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="80313d4e-c410-4b6b-becb-cbb90e7268b6" >
+		<http:request-connection host="localhost" port="8081" />
+	</http:request-config>
+	<flow name="teastFlow" doc:id="fbd671d1-4c9a-416c-803e-55bb41572a86" >
+		<http:listener doc:name="Listener" doc:id="df4f1085-3a9b-4eec-886a-6e9347a4cc83" config-ref="HTTP_Listener_config" path="/until"/>
+		<until-successful maxRetries="2" doc:name="Until Successful" doc:id="d834512b-8ed6-4e45-a442-97ae4a6a4a17" millisBetweenRetries="6000">
+			<http:request method="GET" doc:name="Request" doc:id="1df0b4da-e453-4812-bbb8-8bfaffae7239" url="http://mule-timezone-proxy.us-e2.cloudhub.io/timezone/Europe/Amsterdam"/>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="9e41e0c3-4a8b-4f2b-a95e-720f30e0bf9c" message='"logger"'/>
+	</flow>
+</mule>
